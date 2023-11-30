@@ -84,7 +84,7 @@ func (l *Log) Append(record *api.Record) (uint64, error) {
 }
 
 func (l *Log) Read(off uint64) (*api.Record, error) {
-	l.mu.Lock()
+	l.mu.RLock()
 	defer l.mu.RUnlock()
 	var s *segment
 	for _, segment := range l.segments {
