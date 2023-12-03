@@ -110,7 +110,7 @@ func TestAgent(t *testing.T) {
 	consumeResponse, err = leaderClient.Consume(
 		context.Background(),
 		&api.ConsumeRequest{
-			Offset: produceResponse.Offset,
+			Offset: produceResponse.Offset + 1,
 		},
 	)
 	require.Nil(t, consumeResponse)

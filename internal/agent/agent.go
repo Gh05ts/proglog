@@ -21,7 +21,7 @@ import (
 )
 
 type Agent struct {
-	Config
+	Config     Config
 	mux        cmux.CMux
 	log        *log.DistributedLog
 	server     *grpc.Server

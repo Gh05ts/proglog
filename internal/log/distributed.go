@@ -73,6 +73,7 @@ func (l *DistributedLog) setupRaft(dataDir string) error {
 	if err != nil {
 		return err
 	}
+
 	maxPool := 5
 	timeout := 10 * time.Second
 	transport := raft.NewNetworkTransport(
@@ -94,7 +95,7 @@ func (l *DistributedLog) setupRaft(dataDir string) error {
 		config.LeaderLeaseTimeout = l.config.Raft.LeaderLeaseTimeout
 	}
 	if l.config.Raft.CommitTimeout != 0 {
-		config.LeaderLeaseTimeout = l.config.Raft.CommitTimeout
+		config.CommitTimeout = l.config.Raft.CommitTimeout
 	}
 
 	l.raft, err = raft.NewRaft(
