@@ -102,8 +102,7 @@ func (a *Agent) setupLog() error {
 		if _, err := reader.Read(b); err != nil {
 			return false
 		}
-		// bytes.Compare(b, []byte{byte(log.RaftRPC)}) == 0
-		return bytes.Equal(b, []byte{byte(log.RaftRPC)})
+		return bytes.Compare(b, []byte{byte(log.RaftRPC)}) == 0
 	})
 	logConfig := log.Config{}
 	logConfig.Raft.StreamLayer = log.NewStreamLayer(
