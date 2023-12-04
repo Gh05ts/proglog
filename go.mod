@@ -6,7 +6,6 @@ replace google.golang.org/grpc => google.golang.org/grpc v1.33.2
 
 require (
 	github.com/casbin/casbin v1.9.1
-	github.com/gorilla/mux v1.8.1
 	github.com/grpc-ecosystem/go-grpc-middleware v1.4.0
 	github.com/hashicorp/raft v1.6.0
 	github.com/hashicorp/raft-boltdb/v2 v2.3.0
