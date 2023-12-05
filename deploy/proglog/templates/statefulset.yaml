@@ -58,11 +58,11 @@ spec:
         # probes...
         readinessProbe:
           exec:
-            command: ["/bin/grpc_health_probe", "-addr=:{{ .Values.rpcPort }}", "-connect-timeout 5000ms", "-rpc-timeout 5000ms"]
+            command: ["/bin/grpc_health_probe", "-addr=:{{ .Values.rpcPort }}"]
           initialDelaySeconds: 10
         livenessProbe:
           exec:
-            command: ["/bin/grpc_health_probe", "-addr=:{{ .Values.rpcPort }}", "-connect-timeout 5000ms", "-rpc-timeout 5000ms"]
+            command: ["/bin/grpc_health_probe", "-addr=:{{ .Values.rpcPort }}"]
           initialDelaySeconds: 10
         volumeMounts:
         - name: datadir
