@@ -23,13 +23,23 @@ spec:
           - /bin/sh
           - -c
           - |-
+            rm -r /var/run/proglog/data
+            mkdir -p /var/run/proglog/data
             ID=$(echo $HOSTNAME | rev | cut -d- -f1 | rev)
             cat > /var/run/proglog/config.yaml <<EOD
             data-dir: /var/run/proglog/data
             rpc-port: {{.Values.rpcPort}}
             bind-addr: "$HOSTNAME.proglog.{{.Release.Namespace}}.svc.cluster.local:{{.Values.serfPort}}"
             $([ $ID != 0 ] && echo 'start-join-addrs: "proglog-0.proglog.{{.Release.Namespace}}.svc.cluster.local:{{.Values.serfPort}}"')
-            bootstrap: $([ $ID = 0 ] && echo true || echo false )
+            bootstrap: $([ $ID = 0 ] && echo true || echo false)
+            $([ $ID = 0 ] && echo 'server-tls-cert-file: /usr/local/.proglog/server.pem')
+            $([ $ID = 0 ] && echo 'server-tls-key-file: /usr/local/.proglog/server-key.pem')
+            $([ $ID = 0 ] && echo 'server-tls-ca-file: /usr/local/.proglog/ca.pem')
+            $([ $ID != 0 ] && echo 'peer-tls-cert-file: /usr/local/.proglog/root-client.pem')
+            $([ $ID != 0 ] && echo 'peer-tls-key-file: /usr/local/.proglog/root-client-key.pem')
+            $([ $ID != 0 ] && echo 'peer-tls-ca-file: /usr/local/.proglog/ca.pem')
+            acl-model-file: /usr/local/.proglog/model.conf
+            acl-policy-file: /usr/local/.proglog/policy.csv
             EOD
         volumeMounts:
         - name: datadir
@@ -48,11 +58,11 @@ spec:
         # probes...
         readinessProbe:
           exec:
-            command: ["/bin/grpc_health_probe", "-addr=:{{ .Values.rpcPort }}"]
-          initialDelaySeconds: 5
+            command: ["/bin/grpc_health_probe", "-addr=:{{ .Values.rpcPort }}", "-connect-timeout 5000ms", "-rpc-timeout 5000ms"]
+          initialDelaySeconds: 10
         livenessProbe:
           exec:
-            command: ["/bin/grpc_health_probe", "-addr=:{{ .Values.rpcPort }}"]
+            command: ["/bin/grpc_health_probe", "-addr=:{{ .Values.rpcPort }}", "-connect-timeout 5000ms", "-rpc-timeout 5000ms"]
           initialDelaySeconds: 10
         volumeMounts:
         - name: datadir

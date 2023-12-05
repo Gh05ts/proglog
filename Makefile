@@ -53,7 +53,7 @@ $(CONFIG_PATH)/policy.csv:
 test: $(CONFIG_PATH)/model.conf $(CONFIG_PATH)/policy.csv
 	go test -race ./...
 
-TAG ?= 0.0.3
-
+TAG ?= 0.0.1
+# --no-cache
 build-docker:
 	docker build -t github.com/gh05ts/proglog:$(TAG) . 

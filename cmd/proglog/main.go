@@ -71,15 +71,13 @@ func (c *cli) setupConfig(cmd *cobra.Command, args []string) error {
 	if err != nil {
 		return err
 	}
-	log.Println("file path: ", configFile)
-	log.Println()
 	viper.SetConfigFile(configFile)
 
-	cont, err := os.ReadFile(configFile)
-	if err != nil {
-		return err
-	}
-	log.Println(string(cont))
+	// cont, err := os.ReadFile(configFile)
+	// if err != nil {
+	// 	return err
+	// }
+	// log.Println(string(cont))
 
 	if err = viper.ReadInConfig(); err != nil {
 		// it's ok if config file doesn't exist

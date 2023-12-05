@@ -98,6 +98,11 @@ func (l *DistributedLog) setupRaft(dataDir string) error {
 		config.CommitTimeout = l.config.Raft.CommitTimeout
 	}
 
+	// fmt.Println("raft-log dir: ", logStore.Log.Dir)
+	// fmt.Println("index file name: ", logStore.Log.activeSegment.index.file.Name())
+	// fmt.Println("index size: ", logStore.Log.activeSegment.index.size)
+	// fmt.Println("mmap: ", logStore.Log.activeSegment.index.mmap)
+
 	l.raft, err = raft.NewRaft(
 		config,
 		fsm,

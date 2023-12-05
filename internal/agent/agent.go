@@ -122,6 +122,7 @@ func (a *Agent) setupLog() error {
 	logConfig.Raft.BindAddr = rpcAddr
 	logConfig.Raft.LocalID = raft.ServerID(a.Config.NodeName)
 	logConfig.Raft.Bootstrap = a.Config.Bootstrap
+
 	var err error
 	a.log, err = log.NewDistributedLog(
 		a.Config.DataDir,
@@ -131,9 +132,9 @@ func (a *Agent) setupLog() error {
 		return err
 	}
 	if a.Config.Bootstrap {
-		err = a.log.WaitForLeader(3 * time.Second)
+		return a.log.WaitForLeader(3 * time.Second) // 600
 	}
-	return err
+	return nil
 }
 
 func (a *Agent) setupServer() error {

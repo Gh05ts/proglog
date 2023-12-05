@@ -12,4 +12,5 @@ RUN GRPC_HEALTH_PROBE_VERSION=v0.3.2 \
 FROM scratch
 COPY --from=build /home/gh05t/go/bin/proglog /bin/proglog
 COPY --from=build /home/gh05t/go/bin/grpc_health_probe /bin/grpc_health_probe
+# COPY --from=build /home/gh05t/proglog/.proglog /usr/local/.proglog
 ENTRYPOINT [ "/bin/proglog" ]
